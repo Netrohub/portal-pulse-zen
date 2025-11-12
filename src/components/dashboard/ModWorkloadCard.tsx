@@ -1,0 +1,88 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+
+interface ModWorkloadCardProps {
+  name: string;
+  role: string;
+  activeAssignments: number;
+  completedToday: number;
+  avgResponseTime: string;
+  status: "online" | "away" | "offline";
+  responseScore: number;
+}
+
+const statusConfig = {
+  online: { color: "bg-success", label: "Online" },
+  away: { color: "bg-warning", label: "Away" },
+  offline: { color: "bg-muted", label: "Offline" },
+};
+
+export const ModWorkloadCard = ({
+  name,
+  role,
+  activeAssignments,
+  completedToday,
+  avgResponseTime,
+  status,
+  responseScore,
+}: ModWorkloadCardProps) => {
+  return (
+    <Card className="shadow-card hover:shadow-hover transition-smooth">
+      <CardContent className="p-5">
+        {/* Header */}
+        <div className="flex items-start gap-3 mb-4">
+          <div className="relative">
+            <Avatar className="w-12 h-12">
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                {name.split(" ").map((n) => n[0]).join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div
+              className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-card ${statusConfig[status].color}`}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold truncate">{name}</h3>
+            <p className="text-sm text-muted-foreground">{role}</p>
+          </div>
+        </div>
+
+        {/* Workload Stats */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Active Assignments</span>
+            <span className="font-semibold">{activeAssignments}</span>
+          </div>
+
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Completed Today</span>
+            <span className="font-semibold text-success">{completedToday}</span>
+          </div>
+
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Avg Response</span>
+            <span className="font-semibold">{avgResponseTime}</span>
+          </div>
+
+          {/* Response Score */}
+          <div className="pt-2 space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Response Score</span>
+              <span className="font-semibold">{responseScore}%</span>
+            </div>
+            <Progress value={responseScore} className="h-2" />
+          </div>
+        </div>
+
+        {/* Status Badge */}
+        <div className="mt-4 pt-3 border-t border-border">
+          <Badge variant="outline" className="w-full justify-center">
+            {statusConfig[status].label}
+          </Badge>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

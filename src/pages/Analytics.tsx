@@ -14,7 +14,7 @@ const Analytics = () => {
         <div>
           <h1 className="text-3xl font-bold">Analytics</h1>
           <p className="text-muted-foreground mt-1">
-            Track performance and insights
+            Track reinforcement performance, mod workload, and community trends
           </p>
         </div>
         <div className="flex gap-2">
@@ -27,9 +27,9 @@ const Analytics = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="usage">Usage</TabsTrigger>
-          <TabsTrigger value="custom">Custom</TabsTrigger>
+          <TabsTrigger value="response">Response Times</TabsTrigger>
+          <TabsTrigger value="workload">Mod Workload</TabsTrigger>
+          <TabsTrigger value="sentiment">Sentiment</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4 mt-6">
@@ -39,15 +39,14 @@ const Analytics = () => {
               <CardHeader>
                 <CardTitle className="text-base flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary" />
-                  Reinforcement Trends
+                  Reinforcement Flow
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-64 flex items-center justify-center bg-secondary/30 rounded-lg">
                   <div className="text-center">
-                    <BarChart3 className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground">
-                      Chart visualization will appear here
+                      Line chart: queued → in progress → completed over 7 days
                     </p>
                   </div>
                 </div>
@@ -58,15 +57,14 @@ const Analytics = () => {
               <CardHeader>
                 <CardTitle className="text-base flex items-center gap-2">
                   <Users className="w-4 h-4 text-accent" />
-                  User Activity
+                  Request Priority Distribution
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-64 flex items-center justify-center bg-secondary/30 rounded-lg">
                   <div className="text-center">
-                    <BarChart3 className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground">
-                      Chart visualization will appear here
+                      Pie chart: low, medium, high, urgent priority breakdown
                     </p>
                   </div>
                 </div>
@@ -98,38 +96,50 @@ const Analytics = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="performance" className="mt-6">
+        <TabsContent value="response" className="mt-6">
           <Card className="shadow-card">
-            <CardContent className="p-12 text-center">
-              <TrendingUp className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Performance Metrics</h3>
-              <p className="text-muted-foreground">
-                Detailed performance analytics will be displayed here
-              </p>
+            <CardHeader>
+              <CardTitle>Average Response Time Trend</CardTitle>
+              <p className="text-sm text-muted-foreground">How quickly mods respond to requests</p>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 flex items-center justify-center bg-secondary/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  Line chart: avg response time (minutes) over 30 days
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="usage" className="mt-6">
+        <TabsContent value="workload" className="mt-6">
           <Card className="shadow-card">
-            <CardContent className="p-12 text-center">
-              <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Usage Statistics</h3>
-              <p className="text-muted-foreground">
-                User engagement and usage patterns will be shown here
-              </p>
+            <CardHeader>
+              <CardTitle>Mod Assignment Load</CardTitle>
+              <p className="text-sm text-muted-foreground">Active assignments per moderator</p>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 flex items-center justify-center bg-secondary/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  Bar chart: number of active assignments per mod
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="custom" className="mt-6">
+        <TabsContent value="sentiment" className="mt-6">
           <Card className="shadow-card">
-            <CardContent className="p-12 text-center">
-              <BarChart3 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Custom Reports</h3>
-              <p className="text-muted-foreground">
-                Build and view custom analytics reports
-              </p>
+            <CardHeader>
+              <CardTitle>Community Sentiment Trends</CardTitle>
+              <p className="text-sm text-muted-foreground">Positive, neutral, and negative sentiment over time</p>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 flex items-center justify-center bg-secondary/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  Stacked area chart: sentiment distribution over 30 days
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

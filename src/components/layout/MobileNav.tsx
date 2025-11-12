@@ -1,8 +1,9 @@
-import { LayoutDashboard, BarChart3, Users } from "lucide-react";
+import { LayoutDashboard, BarChart3, Users, ListChecks } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 
 const navigation = [
   { name: "Overview", href: "/", icon: LayoutDashboard },
+  { name: "Queue", href: "/reinforcements", icon: ListChecks },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Team", href: "/team", icon: Users },
 ];
