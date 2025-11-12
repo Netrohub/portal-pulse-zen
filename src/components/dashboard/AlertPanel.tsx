@@ -3,13 +3,43 @@ import { Badge } from "@/components/ui/badge";
 import { AlertCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Alert Data Structure
+ * 
+ * Represents a single alert/incident from the Discord bot.
+ * 
+ * @example
+ * ```json
+ * {
+ *   "id": "alert_456",
+ *   "type": "urgent",
+ *   "title": "High Message Volume Spike",
+ *   "description": "Detected 150+ messages/min in #general",
+ *   "channel": "#general",
+ *   "timestamp": "2m ago"
+ * }
+ * ```
+ */
 interface Alert {
+  /** Unique alert identifier */
   id: string;
+  
+  /** Alert severity level - affects color and icon */
   type: "info" | "warning" | "urgent" | "resolved";
+  
+  /** Short alert title */
   title: string;
+  
+  /** Detailed description of the alert */
   description: string;
+  
+  /** Discord channel where alert originated */
   channel: string;
+  
+  /** Optional user mention if alert is user-specific */
   user?: string;
+  
+  /** Relative time string (e.g., "2m ago") */
   timestamp: string;
 }
 

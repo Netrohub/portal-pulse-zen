@@ -4,15 +4,52 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Clock, AlertCircle, Paperclip } from "lucide-react";
 
+/**
+ * Reinforcement Card Component
+ * 
+ * Displays a single reinforcement request with all metadata.
+ * Used in queue views and activity feeds.
+ * 
+ * @example
+ * ```tsx
+ * <ReinforcementCard
+ *   id="req_123"
+ *   user="Alex_Chen"
+ *   request="Need help with Docker setup - permission errors"
+ *   priority="high"
+ *   status="queued"
+ *   tags={["technical", "docker"]}
+ *   timestamp="5m ago"
+ *   hasAttachment={true}
+ * />
+ * ```
+ */
 interface ReinforcementCardProps {
+  /** Unique identifier for the reinforcement */
   id: string;
+  
+  /** Discord username of the requester */
   user: string;
+  
+  /** Description of the reinforcement request */
   request: string;
+  
+  /** Priority level affects visual styling */
   priority: "low" | "medium" | "high" | "urgent";
+  
+  /** Current status in the workflow */
   status: "queued" | "in_progress" | "completed";
+  
+  /** Moderator username if assigned */
   assignee?: string;
+  
+  /** Array of tags for categorization */
   tags?: string[];
+  
+  /** Relative time string (e.g., "5m ago") or ISO date */
   timestamp: string;
+  
+  /** Shows paperclip icon if true */
   hasAttachment?: boolean;
 }
 
