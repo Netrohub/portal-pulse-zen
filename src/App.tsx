@@ -7,6 +7,7 @@ import { DashboardLayout } from "./components/layout/DashboardLayout";
 import Overview from "./pages/Overview";
 import Analytics from "./pages/Analytics";
 import Team from "./pages/Team";
+import Reinforcements from "./pages/Reinforcements";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Overview />} />
+            <Route path="reinforcements" element={<Reinforcements />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="team" element={<Team />} />
           </Route>

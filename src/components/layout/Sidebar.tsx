@@ -1,4 +1,4 @@
-import { LayoutDashboard, BarChart3, Users, X } from "lucide-react";
+import { LayoutDashboard, BarChart3, Users, ListChecks, X } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
 
@@ -9,6 +9,7 @@ interface SidebarProps {
 
 const navigation = [
   { name: "Overview", href: "/", icon: LayoutDashboard },
+  { name: "Reinforcements", href: "/reinforcements", icon: ListChecks },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Team", href: "/team", icon: Users },
 ];
