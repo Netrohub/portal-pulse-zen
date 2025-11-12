@@ -2,11 +2,36 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
+/**
+ * Activity Data Structure
+ * 
+ * Represents a single action/event in the bot's activity log.
+ * 
+ * @example
+ * ```json
+ * {
+ *   "id": "act_789",
+ *   "user": "Sarah Chen",
+ *   "action": "Completed reinforcement for user Alex_Chen",
+ *   "timestamp": "2 minutes ago",
+ *   "status": "success"
+ * }
+ * ```
+ */
 interface Activity {
+  /** Unique activity identifier */
   id: string;
+  
+  /** Username who performed the action */
   user: string;
+  
+  /** Description of what happened */
   action: string;
+  
+  /** Relative time string */
   timestamp: string;
+  
+  /** Outcome status - affects badge color */
   status: "success" | "pending" | "error";
 }
 

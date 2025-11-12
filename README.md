@@ -1,64 +1,194 @@
-# Welcome to your Lovable project
+# Discord Bot Dashboard
 
-## Project info
+A mobile-first, production-ready dashboard for monitoring and managing Discord moderation bot operations.
 
-**URL**: https://lovable.dev/projects/432c5ea4-7a11-43ea-b9f7-06132d05895e
+## 🚀 Quick Start
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/432c5ea4-7a11-43ea-b9f7-06132d05895e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate to project
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## 📋 Features
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- ✅ **Mobile-First Design** - Responsive from 320px to 4K
+- ✅ **Complete Layout System** - Sidebar, top bar, mobile bottom nav
+- ✅ **Reinforcement Management** - Queue system with status tracking
+- ✅ **Alert Monitoring** - Real-time incident tracking
+- ✅ **Team Workload** - Moderator stats and assignment tracking
+- ✅ **Analytics Dashboard** - Performance metrics and trends
+- ✅ **Dark Mode Support** - Full theme support
+- ✅ **Design System** - Semantic tokens, gradients, shadows
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/
+│   ├── layout/           # App shell (sidebar, topbar, mobile nav)
+│   ├── dashboard/        # Dashboard-specific components
+│   └── ui/              # Shadcn UI components (40+ components)
+├── pages/               # Route pages (Overview, Reinforcements, Analytics, Team)
+├── hooks/               # Custom React hooks
+├── lib/                 # Utilities
+└── index.css            # Design system tokens
+```
 
-## What technologies are used for this project?
+## 🎨 Design System
 
-This project is built with:
+All styling uses semantic tokens defined in `src/index.css`:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**Colors:** `primary`, `accent`, `success`, `warning`, `destructive`  
+**Gradients:** `gradient-primary`, `gradient-card`, `gradient-subtle`  
+**Shadows:** `shadow-card`, `shadow-hover`, `shadow-sm/md/lg/xl`  
+**Animations:** `transition-smooth`, `transition-spring`
+
+**Never use hard-coded colors!** Always use semantic tokens:
+```tsx
+// ✅ Good
+<div className="bg-primary text-primary-foreground">
+
+// ❌ Bad
+<div className="bg-blue-500 text-white">
+```
+
+## 🔌 Integration Guide
+
+See `DASHBOARD_GUIDE.md` for comprehensive integration documentation including:
+
+- Data contracts (TypeScript interfaces)
+- Component API reference
+- Backend endpoint requirements
+- WebSocket event structure
+- Step-by-step integration examples
+
+## 📱 Responsive Breakpoints
+
+- **Mobile:** `< 640px` - Bottom nav, stacked cards
+- **Tablet:** `640px - 1024px` - 2-column grids
+- **Desktop:** `≥ 1024px` - Persistent sidebar, 4-column grids
+
+## 🧩 Key Components
+
+### Layout
+- `DashboardLayout` - Main app shell
+- `Sidebar` - Desktop navigation
+- `TopBar` - Header with search
+- `MobileNav` - Bottom navigation (mobile only)
+
+### Dashboard
+- `MetricCard` - KPI display
+- `ReinforcementCard` - Individual request
+- `ReinforcementQueue` - Tabbed queue view
+- `AlertPanel` - Active alerts
+- `ModWorkloadCard` - Moderator stats
+- `ActivityFeed` - Bot action log
+
+## 🛠️ Tech Stack
+
+- **React 18** + **TypeScript**
+- **Vite** - Build tool
+- **React Router** - Routing
+- **Tailwind CSS** - Styling
+- **Shadcn UI** - Component library (40+ components)
+- **Lucide React** - Icons
+- **React Query** - Data fetching (ready to use)
+
+## 📊 Data Contracts
+
+All components use typed interfaces. Key data structures:
+
+```typescript
+// Reinforcement Request
+interface ReinforcementRequest {
+  id: string;
+  user: string;
+  request: string;
+  priority: "low" | "medium" | "high" | "urgent";
+  status: "queued" | "in_progress" | "completed";
+  assignee?: string;
+  tags?: string[];
+  timestamp: string;
+  hasAttachment?: boolean;
+}
+
+// Alert
+interface Alert {
+  id: string;
+  type: "info" | "warning" | "urgent" | "resolved";
+  title: string;
+  description: string;
+  channel: string;
+  user?: string;
+  timestamp: string;
+}
+
+// Moderator
+interface Moderator {
+  id: string;
+  name: string;
+  role: string;
+  activeAssignments: number;
+  completedToday: number;
+  avgResponseTime: string;
+  status: "online" | "away" | "offline";
+  responseScore: number;
+}
+```
+
+See `DASHBOARD_GUIDE.md` for complete reference.
+
+## 🔄 Next Steps
+
+1. **Connect Backend** - Wire up API endpoints (see guide)
+2. **Add Charts** - Implement Recharts visualizations (library already installed)
+3. **WebSocket** - Real-time updates for alerts/reinforcements
+4. **Actions** - Implement assign/update/dismiss handlers
+
+## 📚 Documentation
+
+- **Integration Guide:** `DASHBOARD_GUIDE.md`
+- **Component Props:** See JSDoc comments in source files
+- **Design Tokens:** `src/index.css`
+- **Shadcn UI:** https://ui.shadcn.com
+- **Lucide Icons:** https://lucide.dev
+
+## 🎯 Current Status
+
+✅ **Complete Frontend** - All UI components and pages functional  
+⏳ **Mock Data** - Components use static data, ready for API integration  
+⏳ **Charts** - Placeholders ready for Recharts implementation  
+⏳ **Actions** - Button handlers need backend wiring
+
+## 🐛 Troubleshooting
+
+**Colors not working?**
+- Use semantic tokens (`bg-primary` not `bg-blue-500`)
+- Check `index.css` is imported
+
+**Layout broken?**
+- Verify imports use `@/` alias
+- Check `tailwind.config.ts` content paths
+
+**Components not found?**
+- Run `npm install` to ensure dependencies
+- Check import paths
+
+See `DASHBOARD_GUIDE.md` for more troubleshooting tips.
+
+---
 
 ## How can I deploy this project?
 

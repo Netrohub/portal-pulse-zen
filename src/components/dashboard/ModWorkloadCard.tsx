@@ -3,13 +3,45 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
+/**
+ * Moderator Workload Card
+ * 
+ * Displays comprehensive stats for a single moderator including
+ * active assignments, completion rate, response time, and status.
+ * 
+ * @example
+ * ```tsx
+ * <ModWorkloadCard
+ *   name="Sarah Chen"
+ *   role="Lead Moderator"
+ *   activeAssignments={8}
+ *   completedToday={12}
+ *   avgResponseTime="6.2min"
+ *   status="online"
+ *   responseScore={96}
+ * />
+ * ```
+ */
 interface ModWorkloadCardProps {
+  /** Full name of the moderator */
   name: string;
+  
+  /** Role/title (e.g., "Lead Moderator", "Senior Moderator") */
   role: string;
+  
+  /** Number of currently assigned reinforcements */
   activeAssignments: number;
+  
+  /** Number of reinforcements completed today */
   completedToday: number;
+  
+  /** Average response time as string (e.g., "6.2min", "15s") */
   avgResponseTime: string;
+  
+  /** Current online status - shows as colored indicator */
   status: "online" | "away" | "offline";
+  
+  /** Performance score 0-100, displayed as progress bar */
   responseScore: number;
 }
 

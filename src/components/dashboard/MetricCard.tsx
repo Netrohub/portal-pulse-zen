@@ -1,11 +1,39 @@
 import { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+/**
+ * Metric Card Component
+ * 
+ * Displays a single KPI/metric with optional change indicator.
+ * Used on dashboard overview for key statistics.
+ * 
+ * @example
+ * ```tsx
+ * import { Activity } from "lucide-react";
+ * 
+ * <MetricCard
+ *   title="Active Reinforcements"
+ *   value={12}
+ *   change="4 queued, 8 in progress"
+ *   changeType="neutral"
+ *   icon={Activity}
+ * />
+ * ```
+ */
 interface MetricCardProps {
+  /** Display label for the metric */
   title: string;
+  
+  /** Primary value - can be string ("8.5min") or number (12) */
   value: string | number;
+  
+  /** Optional change/context text shown below value */
   change?: string;
+  
+  /** Visual styling for change text (green/red/muted) */
   changeType?: "positive" | "negative" | "neutral";
+  
+  /** Lucide icon component (from lucide-react) */
   icon: LucideIcon;
 }
 
