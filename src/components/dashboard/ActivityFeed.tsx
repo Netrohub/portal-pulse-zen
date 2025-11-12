@@ -1,111 +1,64 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
-/**
- * Activity Data Structure
- * 
- * Represents a single action/event in the bot's activity log.
- * 
- * @example
- * ```json
- * {
- *   "id": "act_789",
- *   "user": "Sarah Chen",
- *   "action": "Completed reinforcement for user Alex_Chen",
- *   "timestamp": "2 minutes ago",
- *   "status": "success"
- * }
- * ```
- */
-interface Activity {
-  /** Unique activity identifier */
-  id: string;
-  
-  /** Username who performed the action */
-  user: string;
-  
-  /** Description of what happened */
-  action: string;
-  
-  /** Relative time string */
-  timestamp: string;
-  
-  /** Outcome status - affects badge color */
-  status: "success" | "pending" | "error";
-}
-
-const activities: Activity[] = [
-  {
-    id: "1",
-    user: "Sarah Chen",
-    action: "Completed reinforcement training session",
-    timestamp: "2 minutes ago",
-    status: "success",
-  },
-  {
-    id: "2",
-    user: "Mike Rodriguez",
-    action: "Started new reinforcement cycle",
-    timestamp: "15 minutes ago",
-    status: "pending",
-  },
-  {
-    id: "3",
-    user: "Emma Thompson",
-    action: "Updated team member permissions",
-    timestamp: "1 hour ago",
-    status: "success",
-  },
-  {
-    id: "4",
-    user: "James Wilson",
-    action: "Failed to complete training module",
-    timestamp: "2 hours ago",
-    status: "error",
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import type { ActivityItem } from "@/types/api";
 
 const statusConfig = {
   success: { color: "bg-success/10 text-success border-success/20", label: "Success" },
   pending: { color: "bg-warning/10 text-warning border-warning/20", label: "Pending" },
   error: { color: "bg-destructive/10 text-destructive border-destructive/20", label: "Error" },
-};
+} as const;
 
-export const ActivityFeed = () => {
+interface ActivityFeedProps {
+  activities: ActivityItem[];
+  isLoading?: boolean;
+}
+
+export const ActivityFeed = ({ activities, isLoading = false }: ActivityFeedProps) => {
   return (
     <Card className="shadow-card">
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {activities.map((activity) => (
-          <div
-            key={activity.id}
-            className="flex items-start gap-3 pb-4 border-b border-border last:border-0 last:pb-0"
-          >
-            <Avatar className="w-9 h-9">
-              <AvatarFallback className="text-xs bg-secondary text-foreground">
-                {activity.user.split(" ").map((n) => n[0]).join("")}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium">{activity.user}</p>
-              <p className="text-sm text-muted-foreground truncate">
-                {activity.action}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {activity.timestamp}
-              </p>
-            </div>
-            <Badge
-              variant="outline"
-              className={statusConfig[activity.status].color}
-            >
-              {statusConfig[activity.status].label}
-            </Badge>
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton key={index} className="h-20 w-full rounded-xl" />
+            ))
+          : activities.map((activity) => (
+              <div
+                key={activity.id}
+                className="flex items-start gap-3 pb-4 border-b border-border last:border-0 last:pb-0"
+              >
+                <Avatar className="w-9 h-9">
+                  <AvatarFallback className="text-xs bg-secondary text-foreground">
+                    {activity.user
+                      .split(" ")
+                      .filter(Boolean)
+                      .map((n) => n[0])
+                      .join("") || "--"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{activity.user}</p>
+                  <p className="text-sm text-muted-foreground truncate">{activity.action}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{activity.timestamp}</p>
+                </div>
+                <Badge
+                  variant="outline"
+                  className={statusConfig[activity.status].color}
+                >
+                  {statusConfig[activity.status].label}
+                </Badge>
+              </div>
+            ))}
+
+        {!isLoading && activities.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground text-sm">
+            No recent audit events recorded for this guild.
           </div>
-        ))}
+        )}
       </CardContent>
     </Card>
   );

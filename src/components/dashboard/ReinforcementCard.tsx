@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Clock, AlertCircle, Paperclip } from "lucide-react";
+import { formatRelativeTimestamp } from "@/lib/format";
 
 /**
  * Reinforcement Card Component
@@ -76,6 +77,8 @@ export const ReinforcementCard = ({
   timestamp,
   hasAttachment,
 }: ReinforcementCardProps) => {
+  const relativeTimestamp = formatRelativeTimestamp(timestamp);
+
   return (
     <Card className="shadow-card hover:shadow-hover transition-smooth">
       <CardContent className="p-4">
@@ -91,7 +94,7 @@ export const ReinforcementCard = ({
               <p className="text-sm font-medium truncate">{user}</p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Clock className="w-3 h-3" />
-                <span>{timestamp}</span>
+                <span>{relativeTimestamp}</span>
               </div>
             </div>
           </div>

@@ -17,8 +17,8 @@ npm install
 # Start development server
 npm run dev
 
-# Build for production
-npm run build
+# Build for production (configure VITE_API_URL if different)
+VITE_API_URL=http://localhost:3001 npm run build
 ```
 
 ## 📋 Features
@@ -150,12 +150,11 @@ interface Moderator {
 
 See `DASHBOARD_GUIDE.md` for complete reference.
 
-## 🔄 Next Steps
+## 🔄 Environment
 
-1. **Connect Backend** - Wire up API endpoints (see guide)
-2. **Add Charts** - Implement Recharts visualizations (library already installed)
-3. **WebSocket** - Real-time updates for alerts/reinforcements
-4. **Actions** - Implement assign/update/dismiss handlers
+- Create `.env.local` (or export `VITE_API_URL`) pointing to your dashboard API
+- The client relies on secure cookies & CSRF tokens—deploy behind HTTPS with matching origin or enable credentialed CORS
+- React Query refetches automatically, but you can adjust intervals in the page hooks if needed
 
 ## 📚 Documentation
 
@@ -167,10 +166,10 @@ See `DASHBOARD_GUIDE.md` for complete reference.
 
 ## 🎯 Current Status
 
-✅ **Complete Frontend** - All UI components and pages functional  
-⏳ **Mock Data** - Components use static data, ready for API integration  
-⏳ **Charts** - Placeholders ready for Recharts implementation  
-⏳ **Actions** - Button handlers need backend wiring
+✅ **Complete Frontend** - All UI components and pages hooked to live API endpoints  
+✅ **Live Data** - Reinforcements, alerts, analytics, and moderator metrics fetched via React Query  
+✅ **Charts** - Recharts visualisations for reinforcement flow, response times, workload, sentiment  
+⏳ **Actions** - Queue mutation endpoints & socket broadcasts can be extended alongside the bot
 
 ## 🐛 Troubleshooting
 
@@ -190,14 +189,8 @@ See `DASHBOARD_GUIDE.md` for more troubleshooting tips.
 
 ---
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/432c5ea4-7a11-43ea-b9f7-06132d05895e) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Production builds are static; run `npm run build` and deploy the `dist/` folder
+- Works great with Cloudflare Pages, Netlify, Vercel, S3/CloudFront, or the dashboard backend’s CDN
+- Remember to set `VITE_API_URL` to the deployed API origin (`https://api.yourdomain.com`)

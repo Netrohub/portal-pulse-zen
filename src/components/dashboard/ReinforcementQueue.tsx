@@ -3,61 +3,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ReinforcementCard } from "./ReinforcementCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { ReinforcementItem } from "@/types/api";
 
-const mockReinforcements = [
-  {
-    id: "1",
-    user: "Alex_Chen",
-    request: "Need help with Docker setup - getting permission errors on volume mounts",
-    priority: "high" as const,
-    status: "queued" as const,
-    tags: ["technical", "docker"],
-    timestamp: "5m ago",
-    hasAttachment: true,
-  },
-  {
-    id: "2",
-    user: "Sara_K",
-    request: "Can someone review my PR for the new authentication flow?",
-    priority: "medium" as const,
-    status: "in_progress" as const,
-    assignee: "Mike_R",
-    tags: ["code-review"],
-    timestamp: "12m ago",
-  },
-  {
-    id: "3",
-    user: "Jordan_P",
-    request: "Question about best practices for state management in our project",
-    priority: "low" as const,
-    status: "queued" as const,
-    tags: ["question"],
-    timestamp: "23m ago",
-  },
-  {
-    id: "4",
-    user: "Taylor_M",
-    request: "Urgent: Production deployment failing on CI/CD pipeline",
-    priority: "urgent" as const,
-    status: "in_progress" as const,
-    assignee: "Sarah_C",
-    tags: ["urgent", "deployment"],
-    timestamp: "2m ago",
-    hasAttachment: true,
-  },
-];
+interface ReinforcementQueueProps {
+  reinforcements: ReinforcementItem[];
+  isLoading?: boolean;
+}
 
-export const ReinforcementQueue = () => {
-  const queued = mockReinforcements.filter((r) => r.status === "queued");
-  const inProgress = mockReinforcements.filter((r) => r.status === "in_progress");
+export const ReinforcementQueue = ({ reinforcements, isLoading = false }: ReinforcementQueueProps) => {
+  const queued = reinforcements.filter((reinforcement) => reinforcement.status === "queued");
+  const inProgress = reinforcements.filter((reinforcement) => reinforcement.status === "in_progress");
+
+  const renderSkeletons = () =>
+    Array.from({ length: 3 }).map((_, index) => (
+      <Skeleton key={index} className="h-24 w-full rounded-xl" />
+    ));
 
   return (
     <Card className="shadow-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-xl">Reinforcement Queue</CardTitle>
-        <Button size="sm" className="gradient-primary text-white">
+        <Button size="sm" variant="outline" className="text-xs sm:text-sm" disabled>
           <Plus className="w-4 h-4 mr-1.5" />
-          <span className="hidden sm:inline">New Request</span>
+          <span className="hidden sm:inline">Create Request</span>
         </Button>
       </CardHeader>
       <CardContent>
@@ -72,7 +41,9 @@ export const ReinforcementQueue = () => {
           </TabsList>
 
           <TabsContent value="queued" className="space-y-3 mt-0">
-            {queued.length > 0 ? (
+            {isLoading ? (
+              renderSkeletons()
+            ) : queued.length > 0 ? (
               queued.map((reinforcement) => (
                 <ReinforcementCard key={reinforcement.id} {...reinforcement} />
               ))
@@ -84,7 +55,9 @@ export const ReinforcementQueue = () => {
           </TabsContent>
 
           <TabsContent value="in_progress" className="space-y-3 mt-0">
-            {inProgress.length > 0 ? (
+            {isLoading ? (
+              renderSkeletons()
+            ) : inProgress.length > 0 ? (
               inProgress.map((reinforcement) => (
                 <ReinforcementCard key={reinforcement.id} {...reinforcement} />
               ))

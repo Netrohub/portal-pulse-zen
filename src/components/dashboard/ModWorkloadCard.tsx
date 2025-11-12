@@ -25,22 +25,16 @@ import { Progress } from "@/components/ui/progress";
 interface ModWorkloadCardProps {
   /** Full name of the moderator */
   name: string;
-  
   /** Role/title (e.g., "Lead Moderator", "Senior Moderator") */
   role: string;
-  
   /** Number of currently assigned reinforcements */
   activeAssignments: number;
-  
   /** Number of reinforcements completed today */
   completedToday: number;
-  
-  /** Average response time as string (e.g., "6.2min", "15s") */
-  avgResponseTime: string;
-  
+  /** Average response time in minutes */
+  avgResponseMinutes: number;
   /** Current online status - shows as colored indicator */
   status: "online" | "away" | "offline";
-  
   /** Performance score 0-100, displayed as progress bar */
   responseScore: number;
 }
@@ -56,10 +50,17 @@ export const ModWorkloadCard = ({
   role,
   activeAssignments,
   completedToday,
-  avgResponseTime,
+  avgResponseMinutes,
   status,
   responseScore,
 }: ModWorkloadCardProps) => {
+  const responseTimeLabel =
+    avgResponseMinutes <= 0
+      ? "—"
+      : avgResponseMinutes < 1
+      ? `${Math.round(avgResponseMinutes * 60)}s`
+      : `${avgResponseMinutes.toFixed(1)}min`;
+
   return (
     <Card className="shadow-card hover:shadow-hover transition-smooth">
       <CardContent className="p-5">
@@ -95,7 +96,7 @@ export const ModWorkloadCard = ({
 
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Avg Response</span>
-            <span className="font-semibold">{avgResponseTime}</span>
+            <span className="font-semibold">{responseTimeLabel}</span>
           </div>
 
           {/* Response Score */}

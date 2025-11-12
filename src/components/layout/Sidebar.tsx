@@ -1,6 +1,14 @@
-import { LayoutDashboard, BarChart3, Users, ListChecks, X } from "lucide-react";
+import { LayoutDashboard, BarChart3, Users, ListChecks, X, Shield } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SidebarProps {
   open: boolean;
@@ -15,6 +23,8 @@ const navigation = [
 ];
 
 export const Sidebar = ({ open, onOpenChange }: SidebarProps) => {
+  const { guilds, selectedGuildId, setSelectedGuildId } = useAuth();
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -39,9 +49,9 @@ export const Sidebar = ({ open, onOpenChange }: SidebarProps) => {
         <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-              <LayoutDashboard className="w-4 h-4 text-white" />
+              <Shield className="w-4 h-4 text-white" />
             </div>
-            <span className="font-semibold text-lg">Dashboard</span>
+            <span className="font-semibold text-lg">Reinforcements</span>
           </div>
           <Button
             variant="ghost"
@@ -51,6 +61,26 @@ export const Sidebar = ({ open, onOpenChange }: SidebarProps) => {
           >
             <X className="w-5 h-5" />
           </Button>
+        </div>
+
+        {/* Guild selector (mobile only) */}
+        <div className="p-4 border-b border-border lg:hidden">
+          <Select
+            value={selectedGuildId ?? undefined}
+            onValueChange={setSelectedGuildId}
+            disabled={guilds.length === 0}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select guild" />
+            </SelectTrigger>
+            <SelectContent>
+              {guilds.map((guild) => (
+                <SelectItem key={guild.id} value={guild.id}>
+                  {guild.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Navigation */}
